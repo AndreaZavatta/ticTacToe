@@ -1,4 +1,4 @@
-from player import HumanPlayer
+from player import HumanPlayer, RandomComputerPlayer
 
 
 class TicTacToe:
@@ -41,7 +41,7 @@ class TicTacToe:
 
         col_ind = square % 3
         column = [self.board[col_ind + i * 3] for i in range(3)]
-        if all([spot == letter for spot in row]):
+        if all([spot == letter for spot in column]):
             return True
 
         if square % 2 == 0:
@@ -56,8 +56,8 @@ class TicTacToe:
 
 def play(game, x_player, o_player, print_game=True):
     # returns the winner of the game or None for a tie
-    if print_game:
-        game.print_board_nums()
+
+    game.print_board_nums()
     letter = 'X'  # starting letter
     # iterate while the game still has empty square
     while game.empty_squares():
@@ -66,22 +66,18 @@ def play(game, x_player, o_player, print_game=True):
         else:
             square = x_player.get_move(game)
         if game.make_move(square, letter):
-            if print_game:
-                print(letter + f' makes a move to a square {square}')
-                game.print_board()
-                print('')
+            print(letter + f' makes a move to a square {square}')
+            game.print_board()
 
             if game.current_winner:
-                if print_game:
-                    print(letter + " wins!")
+                print(letter + " wins!")
                 return letter
             letter = 'O' if letter == 'X' else 'X'
-    if print_game:
-        print('It\'s a tie')
+    print('It\'s a tie')
 
 
 if __name__ == '__main__':
     x_player = HumanPlayer('X')
-    o_player = HumanPlayer('O')
+    o_player = RandomComputerPlayer('O')
     t = TicTacToe()
-    play(t, x_player, o_player, print_game=True)
+    play(t, x_player, o_player)
